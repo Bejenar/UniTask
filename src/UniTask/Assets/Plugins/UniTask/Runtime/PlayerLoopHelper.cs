@@ -517,15 +517,13 @@ namespace Cysharp.Threading.Tasks
 	  public static void StopAll() {
 		IsEditorApplicationQuitting = true;
 		
-		if (runners != null) {
+		if (runners != null && yielders != null) {
 		    for (var i = 0; i < runners.Length; i++) {
-			runners[i].Clear();
-		    }
-		}
-	
-		if (yielders != null) {
-		    for (var i = 0; i < yielders.Length; i++) {
-			yielders[i].Clear();
+			runners[i]?.Run();
+			runners[i]?.Clear();
+
+   			yielders[i]?.Run();
+			yielders[i]?.Clear();
 		    }
 		}
 		
